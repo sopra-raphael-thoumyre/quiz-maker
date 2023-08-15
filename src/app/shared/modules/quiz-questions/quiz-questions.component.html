@@ -1,0 +1,36 @@
+<h2 *ngIf="title">{{ title | uppercase }}</h2>
+
+<form [formGroup]="quizForm"
+      (ngSubmit)="validateAnswers()">
+  <div *ngFor="let question of questions; let i = index;"
+       class="margin-top">
+
+    <p>{{ question.question | unescape }}</p>
+
+    <button *ngFor="let answer of question.answers"
+            type="button"
+            class="margin-x"
+            (click)="selectAnswer(i, answer)"
+            [quizHighlight]="highlightColor(i, answer)">{{ answer | unescape }}</button>
+  </div>
+
+  <button *ngIf="quizForm.valid && questions.length && step === 'questions'"
+          type="submit"
+          class="margin-top">Submit</button>
+
+  <div *ngIf="step === 'answers'"
+       [ngClass]="
+       {
+          'red-msg': correctAnswers <= 1,
+          'yellow-msg': correctAnswers > 1 && correctAnswers <= 3,
+          'green-msg': correctAnswers > 3
+      }
+  ">
+    <p>{{ resultMsg }}</p>
+  </div>
+
+  <button *ngIf="step === 'answers'"
+          type="button"
+          class="margin-top"
+          (click)="newQuiz()">Create a new quiz</button>
+</form>

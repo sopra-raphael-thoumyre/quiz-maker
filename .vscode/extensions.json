@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "mhutchie.git-graph",
+    "shardulm94.trailing-spaces",
+    "sibiraj-s.vscode-scss-formatter",
+    "sonarsource.sonarlint-vscode",
+    "angular.ng-template"
+  ]
+}

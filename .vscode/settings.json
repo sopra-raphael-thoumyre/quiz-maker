@@ -1,0 +1,23 @@
+{
+  "files.exclude": {
+    "node_modules/**": false,
+    "typings/**": false,
+    "build/**": false,
+    "dist/**": false,
+    "logs/**": false,
+    "*.log": false
+  },
+  "trailing-spaces.trimOnSave": true,
+  "window.zoomLevel": 0,
+  "editor.formatOnSave": true,
+  "editor.fontFamily": "Consolas",
+  "editor.fontSize": 13,
+  "editor.formatOnType": true,
+  "editor.minimap.enabled": false,
+  "workbench.editor.showIcons": true,
+  "breadcrumbs.enabled": false,
+  "eslint.lintTask.enable": true,
+  "editor.guides.indentation": true,
+  "html.format.wrapAttributes": "force-aligned",
+  "html.format.wrapLineLength": 0,
+}
