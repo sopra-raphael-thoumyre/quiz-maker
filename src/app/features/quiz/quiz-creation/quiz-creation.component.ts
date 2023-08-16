@@ -51,11 +51,14 @@ export class QuizCreationComponent implements OnInit {
     if (this.createForm.valid) {
       const createForm: CreateForm = this.createForm.getRawValue();
 
-      this._questionRepository.getQuestions(createForm.category, createForm.difficulty).subscribe(
-        (questions: Question[]) => {
+      this._questionRepository.getQuestions(createForm.category, createForm.difficulty).subscribe({
+        next: (questions: Question[]) => {
           this.questions = questions;
-        }
-      );
+        },
+        error: () => {
+          this.questions = [];
+        },
+      });
     }
   }
 }

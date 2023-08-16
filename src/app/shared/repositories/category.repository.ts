@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Category, CategoryDto } from '../models/category.model';
 import { GenericObject, isArray } from '../utils/types.utils';
@@ -22,6 +22,11 @@ export class CategoryRepository {
         }
 
         return [];
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+
+        return of([]);
       })
     );
   }

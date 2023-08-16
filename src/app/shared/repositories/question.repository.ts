@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { GenericObject, isArray } from '../utils/types.utils';
 import { Question, QuestionDto } from '../models/question.model';
@@ -28,6 +28,11 @@ export class QuestionRepository {
         }
 
         return this._quizService.questions;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+
+        return of([]);
       })
     );
   }
