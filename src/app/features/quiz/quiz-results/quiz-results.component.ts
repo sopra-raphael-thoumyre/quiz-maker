@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { QUIZ_STEP } from 'src/app/shared/enumerations/quiz-step.enum';
 import { Question } from 'src/app/shared/models/question.model';
 import { QuizService } from 'src/app/shared/services/quiz.service';
 
@@ -12,16 +12,13 @@ export class QuizResultsComponent implements OnInit {
 
   public questions: Question[] = [];
 
+  public readonly QUIZ_STEP: typeof QUIZ_STEP = QUIZ_STEP;
+
   public constructor(
-    private _router: Router,
     private _quizService: QuizService
   ) { }
 
   public ngOnInit(): void {
     this.questions = this._quizService.questions;
-
-    if (!this.questions.length) {
-      this._router.navigate(['/creation']);
-    }
   }
 }

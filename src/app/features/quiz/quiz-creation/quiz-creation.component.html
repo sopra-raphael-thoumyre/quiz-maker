@@ -1,11 +1,12 @@
-<form [formGroup]="createForm"
+<form class="row mb-5"
+      [formGroup]="createForm"
       (ngSubmit)="createQuiz()">
 
   <select id="categorySelect"
           type="number"
           formControlName="category"
-          class="margin-x">
-    <option [value]="null">Select a category</option>
+          class="form-select col mx-2">
+    <option value="">-- Select a category --</option>
     <option id="{{ category.id }}"
             *ngFor="let category of categories"
             [value]="category.id">{{ category.name }}</option>
@@ -13,8 +14,8 @@
 
   <select id="difficultySelect"
           formControlName="difficulty"
-          class="margin-x">
-    <option [value]="null">Select difficulty</option>
+          class="form-select col mx-2">
+    <option value="">-- Select difficulty --</option>
     <option id="{{ difficulty }}"
             *ngFor="let difficulty of DIFFICULTIES"
             [value]="difficulty">{{ difficulty | capitalize }}</option>
@@ -22,11 +23,12 @@
 
   <button id="createBtn"
           type="submit"
-          class="margin-x">Create</button>
+          class="btn btn-primary col mx-2"
+          [disabled]="createForm.invalid">Create</button>
 
 </form>
 
 <quiz-questions [questions]="questions"
                 [title]="title"
-                [step]="'questions'"
+                [step]="QUIZ_STEP.QUESTIONS"
                 *ngIf="questions.length"></quiz-questions>

@@ -3,6 +3,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { Question } from 'src/app/shared/models/question.model';
 import { QuizService } from '../../services/quiz.service';
+import { BUTTON_TYPE } from '../../enumerations/button-type.enum';
+import { QUIZ_STEP } from '../../enumerations/quiz-step.enum';
 
 @Component({
   selector: 'quiz-questions',
@@ -17,7 +19,7 @@ export class QuizQuestionsComponent implements OnChanges {
   public questions: Question[] = [];
 
   @Input({ required: true })
-  public step: 'questions' | 'answers' = 'questions';
+  public step: QUIZ_STEP = QUIZ_STEP.QUESTIONS;
 
   public quizForm: FormGroup = new FormGroup({});
 
@@ -26,6 +28,8 @@ export class QuizQuestionsComponent implements OnChanges {
   }
 
   public correctAnswers: number = 0;
+
+  public readonly QUIZ_STEP: typeof QUIZ_STEP = QUIZ_STEP;
 
   public constructor(
     private _router: Router,
@@ -38,9 +42,9 @@ export class QuizQuestionsComponent implements OnChanges {
       this.correctAnswers = 0;
 
       this.questions.forEach((question: Question, index: number) => {
-        let value: string | null = null;
+        let value: string = '';
 
-        if (this._quizService.answers && this.step === 'answers') {
+        if (this._quizService.answers && this.step === QUIZ_STEP.ANSWERS) {
           value = this._quizService.answers['Q' + index];
 
           if (value === question.correctAnswer) {
@@ -48,18 +52,18 @@ export class QuizQuestionsComponent implements OnChanges {
           }
         }
 
-        this.quizForm.addControl('Q' + index, new FormControl<string | null>(value, Validators.required));
+        this.quizForm.addControl('Q' + index, new FormControl<string>(value, Validators.required));
       });
     }
   }
 
   public selectAnswer(ctrlIndex: number, answer: string): void {
-    if (this.step === 'questions') {
+    if (this.step === QUIZ_STEP.QUESTIONS) {
       const ctrl: AbstractControl | null = this.quizForm.get('Q' + ctrlIndex);
 
       if (ctrl) {
         if (ctrl.value === answer) {
-          ctrl.patchValue(null);
+          ctrl.patchValue('');
         } else {
           ctrl.patchValue(answer);
         }
@@ -67,27 +71,27 @@ export class QuizQuestionsComponent implements OnChanges {
     }
   }
 
-  public highlightColor(ctrlIndex: number, answer: string): 'red' | 'green' | '' {
+  public highlightColor(ctrlIndex: number, answer: string): BUTTON_TYPE {
     const ctrl: AbstractControl | null = this.quizForm.get('Q' + ctrlIndex);
     const question: Question | null = this.questions.length > ctrlIndex ? this.questions[ctrlIndex] : null;
 
-    if (this.step === 'questions') {
-      return ctrl?.value === answer ? 'green' : '';
+    if (this.step === QUIZ_STEP.QUESTIONS) {
+      return ctrl?.value === answer ? BUTTON_TYPE.GREEN : BUTTON_TYPE.DEFAULT;
     } else {
       if (answer === question?.correctAnswer) {
-        return 'green';
+        return BUTTON_TYPE.GREEN;
       }
 
       if (ctrl?.value === answer) {
-        return 'red';
+        return BUTTON_TYPE.RED;
       }
     }
 
-    return '';
+    return BUTTON_TYPE.DEFAULT;
   }
 
   public validateAnswers(): void {
-    if (this.step === 'questions') {
+    if (this.step === QUIZ_STEP.QUESTIONS) {
       this._quizService.answers = this.quizForm.getRawValue();
 
       this._router.navigate(['/results']);

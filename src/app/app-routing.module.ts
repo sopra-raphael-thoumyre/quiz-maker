@@ -1,23 +1,21 @@
 import { NgModule, Type } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorModule } from './features/error/error.module';
+import { QuizModule } from './features/quiz/quiz.module';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main',
+    redirectTo: 'quiz',
     pathMatch: 'full',
   },
   {
     path: 'error',
-    loadChildren: () => import('./features/error/error.module').then((a: { [key: string]: Type<ErrorModule> }) => {
-      console.log(a);
-      return a['ErrorModule'];
-    }),
+    loadChildren: () => import('./features/error/error.module').then((a: { [key: string]: Type<ErrorModule> }) => a['ErrorModule']),
   },
   {
     path: 'quiz',
-    loadChildren: () => import('./features/quiz/quiz.module').then((a: { [key: string]: Type<unknown> }) => a['QuizModule']),
+    loadChildren: () => import('./features/quiz/quiz.module').then((a: { [key: string]: Type<QuizModule> }) => a['QuizModule']),
   },
   {
     path: '**',
@@ -28,7 +26,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
   ],
   exports: [
     RouterModule,
