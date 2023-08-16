@@ -1,11 +1,20 @@
-.red-msg {
-  background-color: red;
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.yellow-msg {
+.text-bg-yellow {
   background-color: yellow;
 }
 
-.green-msg {
-  background-color: green;
+.border-yellow {
+  border-color: yellow;
+}
+
+.btn:disabled,
+.btn.disabled,
+fieldset:disabled .btn {
+  opacity: 1;
 }

@@ -4,6 +4,7 @@ import { QuizComponent } from './quiz.component';
 import { QuizResultsComponent } from './quiz-results/quiz-results.component';
 import { categoryResolver } from 'src/app/shared/resolvers/category.resolver';
 import { QuizCreationComponent } from './quiz-creation/quiz-creation.component';
+import { hasAnswersAndQuestionsGuard } from 'src/app/shared/guards/has-answers-and-questions.guard';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       {
         path: 'results',
         component: QuizResultsComponent,
+        canActivate: [hasAnswersAndQuestionsGuard],
       },
     ],
   },
